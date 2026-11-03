@@ -1,0 +1,61 @@
+:root {
+  font-family: 'Avenir Next', 'PingFang SC', sans-serif;
+  color: #1c3026;
+  background: #f6f5ef;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+}
+
+.workspace {
+  width: min(100% - 48px, 960px);
+  margin: 0 auto;
+}
+
+.masthead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 28px 0;
+  border-bottom: 1px solid #d7ddd4;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+}
+
+.workspace section {
+  padding: clamp(48px, 10vw, 112px) 0 48px;
+}
+
+.eyebrow {
+  color: #236447;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+}
+
+.workspace .project-title {
+  margin: 16px 0 24px;
+  font-family: Georgia, serif;
+  font-size: clamp(64px, 12vw, 112px);
+  font-weight: 400;
+  letter-spacing: -0.06em;
+  line-height: 1;
+}
+
+.workspace .intro {
+  max-width: 560px;
+  margin-bottom: 28px;
+  font-size: 16px;
+  line-height: 1.9;
+}
+
+footer {
+  padding-bottom: 24px;
+  color: #617166;
+  font-size: 12px;
+}
