@@ -18,7 +18,7 @@ DevLab 是开发者知识库 + 技术实验平台。知识库用于管理后端�
 | --- | --- | --- |
 | 仓库管理 | pnpm workspace Monorepo | 已初始化 |
 | 前端 | React + TypeScript + Vite + Ant Design | 最小欢迎页 |
-| 后端 | NestJS + TypeScript | 最小应用及健康检查 |
+| 后端 | NestJS + TypeScript | 健康检查与内存 Notes 查询模块 |
 | 数据库 | PostgreSQL + Prisma | 后续阶段 |
 | 认证与授权 | JWT + RBAC | 后续阶段 |
 | 缓存 | Redis | 后续阶段 |
@@ -30,17 +30,18 @@ DevLab 是开发者知识库 + 技术实验平台。知识库用于管理后端�
 
 ## 当前阶段：Node.js + NestJS 基础
 
-Monorepo 初始化已完成，事件循环实验及笔记模板已建立。当前课程是原生 Node.js HTTP 服务，在独立 playground 中实现健康检查、内存笔记列表与分类筛选，进度见 [阶段进度](00-roadmap/progress.md)。前后端架构和依赖保持现状。
+Monorepo 初始化与前两课实验已建立。当前课程是 NestJS 核心架构与依赖注入，将原生 HTTP 实验的笔记查询迁移到 NotesModule、NotesController 和 NotesService，进度见 [阶段进度](00-roadmap/progress.md)。前端与项目依赖保持现状。
 
 已提供：
 
 - `apps/web`、`apps/api`、`docs` 目录和 pnpm workspace。
 - 前后端开发、类型检查、构建和后端构建产物启动命令。
 - `GET /api/health`，仅表示 API 进程能够响应，不检查外部服务。
+- 内存笔记列表 `GET /api/notes`，支持 `category` 查询参数筛选；每条笔记包含 `id`、`title`、`category`、`content`。
 - Vite 开发代理，前端通过同源 `/api` 访问后端。
 - `AGENTS.md`、项目背景、学习路线和初始化技术笔记。
 
-尚未实现知识库业务、数据持久化、注册登录、权限、缓存、队列、容器化或 AI 能力。欢迎页不是知识库功能的交付。
+当前笔记查询仅使用内存数据，重启后重新初始化。尚未实现完整笔记 CRUD、数据持久化、注册登录、权限、缓存、队列、容器化或 AI 能力。欢迎页不是知识库功能的交付。
 
 ## 迭代原则
 

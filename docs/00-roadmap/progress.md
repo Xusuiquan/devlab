@@ -9,15 +9,56 @@
 - 理解 NestJS 的 Module、Controller、Provider、依赖注入与请求生命周期。
 - 能结合实验和 DevLab 源码解释实现原理，并记录自己的理解。
 
-当前阶段：Node.js + NestJS 基础。当前进入第 2 课原生 Node.js HTTP 服务；事件循环课的实验和待办保留在下方，尚未记录学习者验收结果。
+当前阶段：Node.js + NestJS 基础。当前进入第 3 课 NestJS 核心架构与依赖注入；前两课实验、验证与学习者待办保留，尚未记录学习者独立验收结果。
 
 ## 每课流程
 
 原理 → 最小实验 → DevLab 实际应用 → 技术笔记 → 测试验证。
 
-事件循环课联系现有健康检查接口思考请求响应；HTTP 课在独立实验中实现健康检查与内存笔记列表。笔记中的个人理解与总结由学习者填写。
+事件循环课联系健康接口思考请求响应，HTTP 课用原生服务查询内存笔记，第 3 课将查询迁移到 NestJS 的模块、控制器和服务中。笔记中的个人理解与总结由学习者填写。
 
-## 当前课程：第 2 课 · 原生 Node.js HTTP 服务
+## 当前课程：第 3 课 · NestJS 核心架构与依赖注入
+
+- 代码：[NotesModule](../../apps/api/src/notes/notes.module.ts)、[NotesController](../../apps/api/src/notes/notes.controller.ts)、[NotesService](../../apps/api/src/notes/notes.service.ts)、[AppModule](../../apps/api/src/app.module.ts)。
+- 笔记：[Module、Controller、Service 与依赖注入](../02-nestjs/01-module-controller-service.md)。
+- 学习目标：解释三个角色的职责、请求处理过程及构造函数依赖如何由 Nest 容器提供。
+- 下一课程：请求参数校验与异常处理（Pipe 与 HTTP 异常），仍属于第一阶段。
+- 当前状态：实现、接口与依赖注入故障实验已通过助手验证，学习者理解待独立验证。
+
+本课实施步骤：
+
+- [x] 检查现有路由、全局前缀、依赖和工作区差异。
+- [x] 实现内存笔记查询与分类筛选，注册 NotesModule，保留既有健康接口。
+- [x] 编写客观笔记、依赖注入故障实验和独立练习提示，保留个人总结空白。
+- [x] 仅检查并构建 API，运行接口及依赖注入故障验证，停止本次服务。
+
+学习者待办：
+
+- [ ] 独立解释请求如何经 Controller 调用 Service，以及 Module 的作用。
+- [ ] 独立复现并解释 Provider 缺失导致的依赖注入错误。
+- [ ] 自行完成按 ID 查询，区分非法 ID 和不存在的笔记。
+- [ ] 回答三道面试题并填写个人理解与总结。
+
+### 第 3 课验证记录
+
+2026-11-05，由助手使用 Node.js v24.15.0 与现有 NestJS 12.3.2 实际执行：
+
+| 检查 | 实际结果 |
+| --- | --- |
+| `pnpm --filter @devlab/api typecheck` | 通过 |
+| `pnpm --filter @devlab/api build` | 通过，仅构建后端 |
+| 从真实 `main.js` 入口启动 | 使用 `PORT=3100` 成功启动，模块依赖正常 |
+| `GET /api/notes` | 200，两条笔记均含 `id`、`title`、`category`、`content` |
+| `GET /api/notes?category=Node.js` | 200，一条 Node.js 笔记 |
+| `GET /api/notes?category=Unknown` | 200，`[]` |
+| `GET /api/unknown` | 404，默认响应包含 `message`、`error: "Not Found"`、`statusCode: 404` |
+| `GET /api/notes/1` | 404，按 ID 查询尚未实现 |
+| `GET /api/health` | 200，既有响应 `{"status":"ok","service":"devlab-api"}` 保持原样 |
+| 独立进程清空 NotesModule 的 Provider 元数据 | 创建应用上下文失败，异常构造器为 `UnknownDependenciesException`，指出无法解析 NotesService |
+
+接口响应均检查了状态码、JSON 响应头与实际响应体。故障实验仅修改独立进程内的元数据，未改动正常模块源码。验证服务进程已停止；未修改前端、未安装依赖、未执行全量构建、未提交 Git。助手验证不代表学习者已掌握。
+
+## 第 2 课 · 原生 Node.js HTTP 服务（保留记录）
 
 - 实验：[playground/nodejs/http-server.mjs](../../playground/nodejs/http-server.mjs)。
 - 笔记：[04 · 原生 Node.js HTTP 服务](../01-nodejs/04-http.md)。
@@ -81,6 +122,7 @@
 
 - `docs/00-roadmap/`：阶段目标与进度。
 - `docs/01-nodejs/`：Node.js 基础课程笔记。
+- `docs/02-nestjs/`：NestJS 架构与框架基础课程笔记。
 - `docs/notes/`：保留已有初始化笔记；后续课程按主题目录组织。
 - `docs/PROJECT.md` 与 `docs/LEARNING.md`：继续维护项目背景与长期路线。
 
