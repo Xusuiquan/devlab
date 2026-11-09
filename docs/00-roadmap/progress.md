@@ -9,15 +9,53 @@
 - 理解 NestJS 的 Module、Controller、Provider、依赖注入与请求生命周期。
 - 能结合实验和 DevLab 源码解释实现原理，并记录自己的理解。
 
-当前阶段：Node.js + NestJS 基础。当前进入第 4 课 CRUD、DTO 与参数校验；前三课实验、验证与学习者待办保留，尚未记录学习者独立验收结果。
+当前阶段：Node.js + NestJS 基础。当前进入第 5 课单元测试、Mock 与 E2E；前四课实验、验证与学习者待办保留，尚未记录学习者独立验收结果。
 
 ## 每课流程
 
-原理 → 最小实验 → DevLab 实际应用 → 技术笔记 → 测试验证。
+原理 → 最小实验 → DevLab 业务应用 → 自动化测试 → 技术笔记 → 自主复盘。
 
 事件循环课联系健康接口思考请求响应，HTTP 课用原生服务查询内存笔记，第 3 课将查询迁移到 NestJS 的模块、控制器和服务中。笔记中的个人理解与总结由学习者填写。
 
-## 当前课程：第 4 课 · NestJS CRUD + DTO + ValidationPipe
+## 当前课程：第 5 课 · NestJS 单元测试、Mock 与 E2E
+
+- Service 测试：[notes.service.spec.ts](../../apps/api/src/notes/notes.service.spec.ts)，只调用公开方法。
+- Controller Mock：[notes.controller.spec.ts](../../apps/api/src/notes/notes.controller.spec.ts)，通过 TestingModule 和 useValue 注入模拟服务。
+- HTTP E2E：[notes.e2e-spec.ts](../../apps/api/test/notes.e2e-spec.ts)，使用真实 AppModule、真实 Service 与 Supertest。
+- 共享 HTTP 配置：[app.setup.ts](../../apps/api/src/app.setup.ts)，正式入口和 E2E 共用。
+- 笔记：[单元测试、Mock 与 E2E](../02-nestjs/03-unit-testing-mock-e2e.md)。
+- 测试体系：原项目无测试框架，本课新增 Jest 30，复用 TypeScript 编译器保留装饰器元数据。
+- 当前状态：19 个已实现测试通过，三项独立练习保留；学习者理解待独立验收。
+
+本课步骤：
+
+- [x] 检查现有测试配置和业务契约，确认三个测试边界。
+- [x] 新增 Service、Controller Mock、HTTP E2E 测试，保持业务规则原样。
+- [x] 实际运行测试及必要检查，记录通过/失败结果。
+- [x] 完成技术笔记，保留个人总结空白。
+
+学习者待办（本次不补齐对应测试）：
+
+- [ ] 自行编写 `GET /api/notes/count` 对应测试。
+- [ ] 自行编写 PATCH title=null 返回 400 的测试。
+- [ ] 自行编写 DELETE 不存在的笔记返回 404 的测试。
+- [ ] 独立解释 Mock 和真实 HTTP 测试的边界，回答面试题并填写总结。
+
+### 第 5 课验证记录
+
+2026-11-09，Node.js v24.15.0、Jest 30.5.2、NestJS 12.3.2 下实际执行：
+
+| 检查 | 实际结果 |
+| --- | --- |
+| 安装测试依赖 | 首次被 watcher 构建脚本策略阻止；显式禁用该脚本后冻结锁文件离线安装成功 |
+| 首轮 test:unit | 编译失败，缺少 @jest/globals 直接依赖，尚未执行用例 |
+| 修复后 `pnpm --filter @devlab/api test:unit` | 2 个套件、10 个用例通过，0 失败 |
+| `pnpm --filter @devlab/api test:e2e` | 1 个套件、9 个用例通过，0 失败 |
+| API typecheck / build | 均通过，仅检查和构建后端 |
+
+Service 7 例、Controller Mock 3 例、HTTP E2E 9 例，共 19 例。所有测试逐例重建状态并关闭资源，未使用 forceExit。三项自主练习未补齐，自动化测试通过不代表学习者已掌握。未修改前端或业务规则、未升级既有依赖、未提交 Git。
+
+## 第 4 课 · NestJS CRUD + DTO + ValidationPipe（保留记录）
 
 - 代码：[NotesController](../../apps/api/src/notes/notes.controller.ts)、[NotesService](../../apps/api/src/notes/notes.service.ts)、[CreateNoteDto](../../apps/api/src/notes/dto/create-note.dto.ts)、[UpdateNoteDto](../../apps/api/src/notes/dto/update-note.dto.ts)、[全局 ValidationPipe](../../apps/api/src/main.ts)。
 - 笔记：[CRUD、DTO 与参数校验](../02-nestjs/02-crud-dto-validation.md)。

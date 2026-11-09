@@ -30,7 +30,7 @@ DevLab 是开发者知识库 + 技术实验平台。知识库用于管理后端�
 
 ## 当前阶段：Node.js + NestJS 基础
 
-前三课实验与 Notes 模块已建立。当前课程是 NestJS CRUD、DTO 与 ValidationPipe，在现有模块中实现内存 CRUD 和请求校验，进度见 [阶段进度](00-roadmap/progress.md)。前端保持现状，仅按需新增校验依赖。
+前四课实验与 Notes CRUD 已建立。当前课程是 NestJS 单元测试、Mock 与 E2E，为现有业务建立自动化验证，进度见 [阶段进度](00-roadmap/progress.md)。本课新增测试开发依赖，前端和 Notes 业务规则保持原样。
 
 已提供：
 
@@ -39,6 +39,7 @@ DevLab 是开发者知识库 + 技术实验平台。知识库用于管理后端�
 - `GET /api/health`，仅表示 API 进程能够响应，不检查外部服务。
 - 内存笔记列表 `GET /api/notes`，支持 `category` 查询参数筛选；每条笔记包含 `id`、`title`、`category`、`content`。
 - 笔记单条查询、创建、局部更新与删除，包含 DTO 校验、400/404 异常及服务端 ID 生成；计数接口留作练习。
+- Jest Service 单元测试、TestingModule Controller Mock 测试与 Supertest HTTP E2E；正式入口和 E2E 共用前缀与 ValidationPipe 配置。
 - Vite 开发代理，前端通过同源 `/api` 访问后端。
 - `AGENTS.md`、项目背景、学习路线和初始化技术笔记。
 
