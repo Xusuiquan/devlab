@@ -18,7 +18,7 @@ DevLab 是开发者知识库 + 技术实验平台。知识库用于管理后端�
 | --- | --- | --- |
 | 仓库管理 | pnpm workspace Monorepo | 已初始化 |
 | 前端 | React + TypeScript + Vite + Ant Design | 最小欢迎页 |
-| 后端 | NestJS + TypeScript | 健康检查与内存 Notes 查询模块 |
+| 后端 | NestJS + TypeScript | 健康检查、内存 Notes CRUD、DTO 校验 |
 | 数据库 | PostgreSQL + Prisma | 后续阶段 |
 | 认证与授权 | JWT + RBAC | 后续阶段 |
 | 缓存 | Redis | 后续阶段 |
@@ -30,7 +30,7 @@ DevLab 是开发者知识库 + 技术实验平台。知识库用于管理后端�
 
 ## 当前阶段：Node.js + NestJS 基础
 
-Monorepo 初始化与前两课实验已建立。当前课程是 NestJS 核心架构与依赖注入，将原生 HTTP 实验的笔记查询迁移到 NotesModule、NotesController 和 NotesService，进度见 [阶段进度](00-roadmap/progress.md)。前端与项目依赖保持现状。
+前三课实验与 Notes 模块已建立。当前课程是 NestJS CRUD、DTO 与 ValidationPipe，在现有模块中实现内存 CRUD 和请求校验，进度见 [阶段进度](00-roadmap/progress.md)。前端保持现状，仅按需新增校验依赖。
 
 已提供：
 
@@ -38,10 +38,11 @@ Monorepo 初始化与前两课实验已建立。当前课程是 NestJS 核心架
 - 前后端开发、类型检查、构建和后端构建产物启动命令。
 - `GET /api/health`，仅表示 API 进程能够响应，不检查外部服务。
 - 内存笔记列表 `GET /api/notes`，支持 `category` 查询参数筛选；每条笔记包含 `id`、`title`、`category`、`content`。
+- 笔记单条查询、创建、局部更新与删除，包含 DTO 校验、400/404 异常及服务端 ID 生成；计数接口留作练习。
 - Vite 开发代理，前端通过同源 `/api` 访问后端。
 - `AGENTS.md`、项目背景、学习路线和初始化技术笔记。
 
-当前笔记查询仅使用内存数据，重启后重新初始化。尚未实现完整笔记 CRUD、数据持久化、注册登录、权限、缓存、队列、容器化或 AI 能力。欢迎页不是知识库功能的交付。
+当前笔记 CRUD 仅使用内存数据，重启后重新初始化。尚未实现数据持久化、注册登录、权限、缓存、队列、容器化或 AI 能力。
 
 ## 迭代原则
 

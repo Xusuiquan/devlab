@@ -9,7 +9,7 @@
 - 理解 NestJS 的 Module、Controller、Provider、依赖注入与请求生命周期。
 - 能结合实验和 DevLab 源码解释实现原理，并记录自己的理解。
 
-当前阶段：Node.js + NestJS 基础。当前进入第 3 课 NestJS 核心架构与依赖注入；前两课实验、验证与学习者待办保留，尚未记录学习者独立验收结果。
+当前阶段：Node.js + NestJS 基础。当前进入第 4 课 CRUD、DTO 与参数校验；前三课实验、验证与学习者待办保留，尚未记录学习者独立验收结果。
 
 ## 每课流程
 
@@ -17,7 +17,53 @@
 
 事件循环课联系健康接口思考请求响应，HTTP 课用原生服务查询内存笔记，第 3 课将查询迁移到 NestJS 的模块、控制器和服务中。笔记中的个人理解与总结由学习者填写。
 
-## 当前课程：第 3 课 · NestJS 核心架构与依赖注入
+## 当前课程：第 4 课 · NestJS CRUD + DTO + ValidationPipe
+
+- 代码：[NotesController](../../apps/api/src/notes/notes.controller.ts)、[NotesService](../../apps/api/src/notes/notes.service.ts)、[CreateNoteDto](../../apps/api/src/notes/dto/create-note.dto.ts)、[UpdateNoteDto](../../apps/api/src/notes/dto/update-note.dto.ts)、[全局 ValidationPipe](../../apps/api/src/main.ts)。
+- 笔记：[CRUD、DTO 与参数校验](../02-nestjs/02-crud-dto-validation.md)。
+- 学习目标：理解运行时 DTO 校验、部分更新、服务端 ID、HTTP 状态码与异常。
+- 下一课程：NestJS 单元测试与 Mock。
+- 当前状态：CRUD、DTO 与异常请求已通过助手验证；学习者理解尚待独立验收。
+
+本课步骤：
+
+- [x] 检查已有代码、依赖和全局校验配置。
+- [x] 实现内存 CRUD、DTO 和单一全局 ValidationPipe。
+- [x] 验证正常与异常请求，并停止验证进程。
+- [x] 完成技术笔记并记录实际结果。
+
+学习者待办：
+
+- [ ] 独立解释字段缺失、null、空字符串和空 PATCH 的区别。
+- [ ] 独立运行正常与异常请求，解释 201、200、204、400、404。
+- [ ] 自行实现 `GET /api/notes/count`，处理静态路径与 `/:id` 的匹配顺序。
+- [ ] 回答面试题并填写个人理解与总结。
+
+### 第 4 课验证记录
+
+2026-11-09，使用 Node.js v24.15.0 实际执行 API 类型检查、API 定向构建及 39 项 HTTP 检查，全部通过：
+
+| 场景 | 实际结果 |
+| --- | --- |
+| 查询列表、分类与单条笔记 | 200，数据符合契约 |
+| POST 创建 | 201，三个字符串已 trim，服务端生成 ID 3 |
+| PATCH 局部更新 | 200，未提交字段保持原样 |
+| DELETE 删除 | 204，响应体为空；再次查询返回 404 |
+| 删除后再创建 | ID 为 4，不复用已删除的 3 |
+| GET/PATCH/DELETE 不存在的 ID | 404 |
+| GET/PATCH/DELETE 非数字 ID | 400 |
+| title 为数字、null 或纯空白 | 400 |
+| title 超过 100、category 超过 50 字符 | 400 |
+| 创建缺字段，category/content 全空白 | 400 |
+| POST/PATCH 包含 id 或其他额外字段 | 400 |
+| PATCH 空对象、任一字段为 null | 400 |
+| 失败 PATCH 后查询 | 数据和 ID 均未被修改 |
+| `/api/health` 与未匹配路径 | 分别为 200、404 |
+| `/api/notes/count` | 400，当前仍由动态 ID 路由处理，计数功能未实现 |
+
+验证完成后已关闭本次服务进程。仅新增 class-validator、class-transformer 及其必要依赖，未升级原有依赖；未修改前端、未执行全量构建、未提交 Git。检查通过不代表学习者已掌握。
+
+## 第 3 课 · NestJS 核心架构与依赖注入（保留记录）
 
 - 代码：[NotesModule](../../apps/api/src/notes/notes.module.ts)、[NotesController](../../apps/api/src/notes/notes.controller.ts)、[NotesService](../../apps/api/src/notes/notes.service.ts)、[AppModule](../../apps/api/src/app.module.ts)。
 - 笔记：[Module、Controller、Service 与依赖注入](../02-nestjs/01-module-controller-service.md)。
